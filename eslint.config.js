@@ -11,9 +11,18 @@ import { defineConfig } from "eslint/config";
 export default defineConfig(
   { ignores: ["dist"] },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommendedTypeChecked,
+      tseslint.configs.strictTypeChecked,
+      tseslint.configs.stylisticTypeChecked,
+    ],
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
+      parserOptions: {
+        project: ["./tsconfig.app.json"],
+        tsconfigRootDir: import.meta.dirname,
+      },
       ecmaVersion: 2020,
       globals: globals.browser,
     },
