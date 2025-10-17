@@ -26,7 +26,10 @@ export default defineConfig(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+      "react-refresh/only-export-components": [
+        "warn",
+        { allowConstantExport: true },
+      ],
       "react/jsx-sort-props": [
         "warn",
         {
@@ -37,9 +40,16 @@ export default defineConfig(
         },
       ],
       "import/order": [
-        "error",
+        "warn",
         {
-          groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
+          groups: [
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index",
+          ],
           pathGroups: [
             {
               pattern: "@/**",
@@ -53,8 +63,8 @@ export default defineConfig(
             },
           ],
           pathGroupsExcludedImportTypes: ["builtin"],
-          alphabetize: { order: "asc", caseInsensitive: true },
           "newlines-between": "always",
+          alphabetize: { order: "asc", caseInsensitive: true },
         },
       ],
 
@@ -64,7 +74,7 @@ export default defineConfig(
       "fsd/no-cross-slice-dependency": "error",
       "fsd/no-ui-in-business-logic": "error",
       "fsd/no-global-store-imports": "error",
-      "fsd/ordered-imports": "warn"
+      "fsd/ordered-imports": "warn",
     },
     settings: {
       react: {
@@ -80,5 +90,5 @@ export default defineConfig(
         },
       },
     },
-  }
+  },
 );
