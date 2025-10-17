@@ -12,7 +12,7 @@ export function NotFoundPage() {
         </p>
         <button
           className="mx-auto mt-8 cursor-pointer rounded bg-blue-500 px-4 py-2 text-white"
-          onClick={() => navigator("/")}
+          onClick={() => void navigator("/")}
         >
           Go to Home
         </button>
