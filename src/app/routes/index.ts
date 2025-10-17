@@ -1,2 +1,2 @@
 export * from "./common.routes";
-export * from "./lib.routes";
+export * from "./playground.routes";
