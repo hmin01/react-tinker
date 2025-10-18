@@ -1,6 +1,8 @@
 import { classNames } from "@/shared";
+
 import { useDrawing } from "../hooks";
 import type { DrawingCanvasProps } from "../types";
+
 export function DrawingCanvas({
   className,
   onComplete,
