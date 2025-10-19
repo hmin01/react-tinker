@@ -1,5 +1,5 @@
 export const previewLineStyle = {
-  strokeColor: "gray",
+  strokeColor: "lightgray",
   strokeWidth: 1,
-  dashArray: [1, 1],
+  dashArray: [2, 2],
 };
