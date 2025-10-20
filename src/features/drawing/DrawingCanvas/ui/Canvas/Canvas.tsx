@@ -8,13 +8,15 @@ import { useCanvas } from "./useCanvas";
 export const Canvas = forwardRef<HTMLCanvasElement, CanvasProps>(
   ({ className, onLoad, ...props }, ref) => {
     // 캔버스 관리
-    useCanvas({ onLoad });
+    const { canvasRef } = useCanvas({ onLoad });
 
     return (
       <canvas
         ref={(el) => {
           if (typeof ref === "function") ref(el);
           else if (ref) ref.current = el;
+          // 내부 캔버스 참조 설정
+          canvasRef.current = el;
         }}
         className={classNames("drawing-canvas h-full w-full", className)}
         {...props}

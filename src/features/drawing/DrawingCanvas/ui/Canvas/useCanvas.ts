@@ -18,9 +18,7 @@ export function useCanvas({ onLoad }: Pick<CanvasProps, "onLoad">) {
       _scope.setup(canvasRef.current);
       _scope.activate();
       // 로드 완료 이벤트 호출
-      requestAnimationFrame(() => {
-        onLoad?.(_scope);
-      });
+      onLoad?.(_scope);
 
       // Cleanup
       return () => {
@@ -31,4 +29,9 @@ export function useCanvas({ onLoad }: Pick<CanvasProps, "onLoad">) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  return {
+    /** 캔버스 참조 객체 */
+    canvasRef,
+  };
 }
