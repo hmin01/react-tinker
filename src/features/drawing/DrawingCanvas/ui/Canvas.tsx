@@ -5,8 +5,8 @@ import {
   type CanvasHTMLAttributes,
 } from "react";
 
-import { classNames } from "@/shared";
-import { useScopeContext } from "../model";
+import { classNames } from "@shared/utils";
+import { useScopeContext } from "../hooks";
 
 export interface CanvasProps
   extends Omit<CanvasHTMLAttributes<HTMLCanvasElement>, "onLoad"> {

@@ -1,6 +1,6 @@
 import type { RouteObject } from "react-router-dom";
 
-import { DrawingPolygon } from "@/pages";
+import { DrawingPolygon } from "@pages";
 
 export const PlaygroundRoutes: RouteObject[] = [
   {

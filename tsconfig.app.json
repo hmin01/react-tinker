@@ -29,12 +29,14 @@
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"],
-      "@shared/*": ["shared/*"],
+      "@app": ["app/index.ts"],
+      "@app/*": ["app/*"],
       "@entities/*": ["entities/*"],
       "@features/*": ["features/*"],
-      "@widgets/*": ["widgets/*"],
+      "@pages": ["pages/index.ts"],
       "@pages/*": ["pages/*"],
-      "@app/*": ["app/*"]
+      "@shared/*": ["shared/*"],
+      "@widgets/*": ["widgets/*"]
     }
   },
   "include": ["src"]

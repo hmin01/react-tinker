@@ -1,4 +1,4 @@
-import { DrawingCanvas } from "@/features/drawing";
+import { DrawingCanvas } from "@features/drawing";
 import { DrawingTool } from "./DrawingTool";
 export function DrawingPolygon() {
   return (

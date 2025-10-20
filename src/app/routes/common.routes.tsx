@@ -1,6 +1,6 @@
 import type { RouteObject } from "react-router-dom";
 
-import { NotFoundPage } from "@/pages";
+import { NotFoundPage } from "@pages";
 
 export const CommonRoutes: RouteObject[] = [
   {
