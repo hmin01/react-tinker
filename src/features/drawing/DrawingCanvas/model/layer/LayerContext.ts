@@ -1,4 +1,4 @@
-import { createContext, useContext, type RefObject } from "react";
+import { createContext, type RefObject } from "react";
 
 interface LayerContextValue {
   layer: RefObject<paper.Layer> | null;
@@ -7,7 +7,3 @@ interface LayerContextValue {
 export const LayerContext = createContext<LayerContextValue>({
   layer: null,
 });
-
-export function useLayerContext() {
-  return useContext(LayerContext);
-}

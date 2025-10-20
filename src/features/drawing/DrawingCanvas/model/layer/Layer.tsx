@@ -1,7 +1,7 @@
 import paper from "paper";
 import { useEffect, useRef, type PropsWithChildren } from "react";
 
-import { useScopeContext } from "../scope";
+import { useScopeContext } from "../../hooks";
 
 import { LayerContext } from "./LayerContext";
 
