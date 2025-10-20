@@ -1,3 +1,4 @@
+import paper from "paper";
 import { useRef, type PropsWithChildren } from "react";
 
 import { ScopeContext } from "./ScopeContext";
