@@ -20,7 +20,6 @@ export const Canvas = forwardRef<HTMLCanvasElement, CanvasProps>(
     const { scope } = useScopeContext();
     // 캔버스 참조 객체
     const canvas = useRef<HTMLCanvasElement>(null);
-
     /** 초기 설정 */
     useEffect(() => {
       if (canvas.current) {
@@ -30,8 +29,17 @@ export const Canvas = forwardRef<HTMLCanvasElement, CanvasProps>(
         // 로드 완료 이벤트 호출
         onLoad?.(_scope);
 
+        // ContextMenu 방지
+        canvas.current.addEventListener("contextmenu", (e) => {
+          e.preventDefault();
+        });
+
         // Cleanup
         return () => {
+          // ContextMenu 이벤트 제거
+          canvas.current?.removeEventListener("contextmenu", (e) => {
+            e.preventDefault();
+          });
           // paper.js 정리
           canvas.current?.remove();
           canvas.current = null;

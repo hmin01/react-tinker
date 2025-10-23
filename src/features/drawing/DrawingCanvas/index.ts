@@ -6,6 +6,7 @@ export type {
   Point,
   PolylineProps,
   Segment,
+  ToolMouseEvent,
   ToolProps,
 } from "./types";
 export { DrawingCanvas, Line, Polyline, Tool } from "./ui";
