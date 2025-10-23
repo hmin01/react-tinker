@@ -1,6 +1,11 @@
 import { useCallback, useRef } from "react";
 
-import { useScopeContext, type Path, type Segment } from "@features/drawing";
+import {
+  useScopeContext,
+  type Path,
+  type Segment,
+  type ToolMouseEvent,
+} from "@features/drawing";
 import type { DrawingToolProps } from "../types";
 
 const previewLineStyle = {
@@ -43,7 +48,7 @@ export function useDrawing({ onComplete }: DrawingToolProps) {
   }, [onComplete]);
 
   /** [Handler] 마우스 드래그 */
-  const handleMouseDrag = useCallback(({ point }: paper.ToolEvent) => {
+  const handleMouseDrag = useCallback(({ delta, point }: paper.ToolEvent) => {
     // 선택된 세그먼트가 있을 경우
     if (segment.current) {
       if (drawnLine.current)
@@ -51,53 +56,68 @@ export function useDrawing({ onComplete }: DrawingToolProps) {
     }
     // 선택된 도형이 있을 경우
     else if (selectedPath.current) {
-      selectedPath.current.position = point;
+      selectedPath.current.position.x += delta.x;
+      selectedPath.current.position.y += delta.y;
     }
   }, []);
 
   /** [Handler] 마우스 다운 (좌표 생성) */
   const handleMouseDown = useCallback(
-    ({ point }: paper.ToolEvent) => {
-      const _scope = scope.current;
-      // Segment 생성
-      const _segment = new _scope.Segment(point);
+    ({ event, point }: ToolMouseEvent) => {
+      // 좌측 클릭인 경우
+      if (event.button === 0) {
+        const _scope = scope.current;
+        // Segment 생성
+        const _segment = new _scope.Segment(point);
 
-      // 새로운 선 생성
-      drawnLine.current ??= new _scope.Path({
-        fillColor: new _scope.Color(0, 0, 0, 0.1),
-        closed: true,
-        segments: [],
-        selected: true,
-        strokeColor: new _scope.Color("blue"),
-        strokeWidth: 1,
-      });
+        // 새로운 선 생성
+        drawnLine.current ??= new _scope.Path({
+          fillColor: new _scope.Color(0, 0, 0, 0.1),
+          closed: true,
+          segments: [],
+          selected: true,
+          strokeColor: new _scope.Color("blue"),
+          strokeWidth: 1,
+        });
 
-      // 기존 좌표 및 도형 클릭 여부 확인
-      const _hitResult = drawnLine.current.hitTest(
-        point,
-        HitOptions,
-      ) as paper.HitResult | null;
+        // 기존 좌표 및 도형 클릭 여부 확인
+        const _hitResult = drawnLine.current.hitTest(
+          point,
+          HitOptions,
+        ) as paper.HitResult | null;
 
-      // 좌표 클릭인 경우, 해당 세그먼트 선택
-      if (_hitResult?.type === "segment") {
-        segment.current = _hitResult.segment;
+        // 좌표 클릭인 경우, 해당 세그먼트 선택
+        if (_hitResult?.type === "segment") {
+          segment.current = _hitResult.segment;
+        }
+        // 선 클릭인 경우, 새로운 좌표 추가
+        else if (_hitResult?.type === "stroke") {
+          // 새로운 좌표 추가
+          drawnLine.current.insertSegments(_hitResult.location.index + 1, [
+            _segment,
+          ]);
+          // 추가된 세그먼트 선택
+          segment.current = _segment;
+        }
+        // 도형 내부 클릭인 경우, 도형 선택
+        else if (_hitResult?.type === "fill") {
+          selectedPath.current = _hitResult.item as Path;
+        }
+        // 선택 요소가 없을 경우, 새로운 좌표 추가
+        else {
+          drawnLine.current.add(_segment);
+        }
       }
-      // 선 클릭인 경우, 새로운 좌표 추가
-      else if (_hitResult?.type === "stroke") {
-        // 새로운 좌표 추가
-        drawnLine.current.insertSegments(_hitResult.location.index + 1, [
-          _segment,
-        ]);
-        // 추가된 세그먼트 선택
-        segment.current = _segment;
-      }
-      // 도형 내부 클릭인 경우, 도형 선택
-      else if (_hitResult?.type === "fill") {
-        selectedPath.current = _hitResult.item as Path;
-      }
-      // 선택 요소가 없을 경우, 새로운 좌표 추가
-      else {
-        drawnLine.current.add(_segment);
+      // 우측 클릭인 경우
+      else if (event.button === 2) {
+        // 포인트와 일치하는 세그먼트 인덱스 찾기
+        const findIndex = drawnLine.current?.segments.findIndex(
+          ({ point: _point }) => point.equals(_point),
+        );
+        // 해당 세그먼트 삭제
+        if (findIndex !== undefined && findIndex > -1) {
+          drawnLine.current?.removeSegment(findIndex);
+        }
       }
     },
     [scope],
