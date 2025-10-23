@@ -1,11 +1,14 @@
 import { DrawingCanvas } from "@features/drawing";
 import { DrawingTool } from "./DrawingTool";
+import { InfoWindow } from "./InfoWindow";
+
 export function DrawingPolygon() {
   return (
-    <div className="h-[600px] w-[800px] border border-solid border-black">
+    <div className="relative h-screen w-screen">
       <DrawingCanvas>
         <DrawingTool />
       </DrawingCanvas>
+      <InfoWindow />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { useCallback, useRef } from "react";
 import {
   useScopeContext,
   type Path,
+  type Point,
   type Segment,
   type ToolMouseEvent,
 } from "@features/drawing";
@@ -37,6 +38,16 @@ export function useDrawing({ onComplete }: DrawingToolProps) {
   const segment = useRef<Segment | null>(null);
   // 현재 선택된 도형
   const selectedPath = useRef<Path | null>(null);
+
+  /** HitResult */
+  const getHitResult = useCallback(
+    (point: Point) => {
+      // 그려진 선이 없을 경우, null 반환
+      if (drawnLine.current === null) return null;
+      return drawnLine.current.hitTest(point, HitOptions);
+    },
+    [drawnLine],
+  );
 
   /** [Handler] 도형 완성 */
   const handleComplete = useCallback(() => {
@@ -81,10 +92,7 @@ export function useDrawing({ onComplete }: DrawingToolProps) {
         });
 
         // 기존 좌표 및 도형 클릭 여부 확인
-        const _hitResult = drawnLine.current.hitTest(
-          point,
-          HitOptions,
-        ) as paper.HitResult | null;
+        const _hitResult = getHitResult(point);
 
         // 좌표 클릭인 경우, 해당 세그먼트 선택
         if (_hitResult?.type === "segment") {
@@ -110,17 +118,14 @@ export function useDrawing({ onComplete }: DrawingToolProps) {
       }
       // 우측 클릭인 경우
       else if (event.button === 2) {
-        // 포인트와 일치하는 세그먼트 인덱스 찾기
-        const findIndex = drawnLine.current?.segments.findIndex(
-          ({ point: _point }) => point.equals(_point),
-        );
-        // 해당 세그먼트 삭제
-        if (findIndex !== undefined && findIndex > -1) {
-          drawnLine.current?.removeSegment(findIndex);
+        const _hitResult = getHitResult(point);
+
+        if (_hitResult?.type === "segment") {
+          drawnLine.current?.removeSegment(_hitResult.segment.index);
         }
       }
     },
-    [scope],
+    [getHitResult, scope],
   );
 
   /** [Handler] 마우스 이동 (미리보기 선 그리기) */
@@ -148,13 +153,20 @@ export function useDrawing({ onComplete }: DrawingToolProps) {
       }
       // 좌표가 2개인 경우, 미리보기 선 업데이트
       else if (drawnLine.current.segments.length === 2) {
+        // Segments 생성
+        const _segments = [
+          drawnLine.current.lastSegment,
+          new _scope.Segment(point),
+          drawnLine.current.firstSegment,
+        ];
         // 미리보기 경로 재구성
         if (previewLine.current) {
-          previewLine.current.segments = [
-            drawnLine.current.lastSegment,
-            new _scope.Segment(point),
-            drawnLine.current.firstSegment,
-          ];
+          previewLine.current.segments = _segments;
+        } else {
+          previewLine.current = new _scope.Path({
+            ...previewLineStyle,
+            segments: _segments,
+          });
         }
       }
       // 3개 이상으로 폴리곤이 완성된 경우, 미리보기 선 제거

@@ -1,1 +1,2 @@
-export * from "./drawing-polygon";
+export * from "./DrawingPolygon";
+export * from "./DrawingTool";
