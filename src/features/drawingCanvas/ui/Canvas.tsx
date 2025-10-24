@@ -1,5 +1,12 @@
 import paper from "paper";
-import { useEffect, useRef, useState, type CanvasHTMLAttributes } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CanvasHTMLAttributes,
+  type MouseEvent,
+} from "react";
 
 import { CanvasScopeContext } from "../model/scope";
 
@@ -15,6 +22,11 @@ export function Canvas({ children, onResize, style, ...props }: CanvasProps) {
   const [scope, setScope] = useState<paper.PaperScope | null>(null);
   // Resize Observer
   const resizeObserver = useRef<ResizeObserver | null>(null);
+
+  /** [Handler] 마우스 우측 클릭 방지 */
+  const handleContextMenu = useCallback((e: MouseEvent) => {
+    e.preventDefault();
+  }, []);
 
   /** PaperScope 초기화 */
   useEffect(() => {
@@ -58,6 +70,7 @@ export function Canvas({ children, onResize, style, ...props }: CanvasProps) {
     <CanvasScopeContext.Provider value={{ scope }}>
       <canvas
         ref={canvasRef}
+        onContextMenu={handleContextMenu}
         style={{ height: "100%", width: "100%", ...style }}
         {...props}
       />
