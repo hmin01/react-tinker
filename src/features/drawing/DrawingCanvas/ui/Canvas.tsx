@@ -8,6 +8,11 @@ import {
 import { classNames } from "@shared/utils";
 import { useScopeContext } from "../hooks";
 
+
+
+
+
+
 export interface CanvasProps
   extends Omit<CanvasHTMLAttributes<HTMLCanvasElement>, "onLoad"> {
   /** 로드 완료 이벤트 핸들러 */

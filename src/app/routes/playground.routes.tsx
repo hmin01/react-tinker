@@ -1,6 +1,6 @@
 import type { RouteObject } from "react-router-dom";
 
-import { DrawingPolygon } from "@pages";
+import { DrawingPolygon, DrawingShapes } from "@pages";
 
 export const PlaygroundRoutes: RouteObject[] = [
   {
@@ -9,6 +9,10 @@ export const PlaygroundRoutes: RouteObject[] = [
       {
         path: "drawing-polygon",
         element: <DrawingPolygon />,
+      },
+      {
+        path: "drawing-shapes",
+        element: <DrawingShapes />,
       },
     ],
   },

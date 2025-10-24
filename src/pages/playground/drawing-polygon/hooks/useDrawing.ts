@@ -9,6 +9,11 @@ import {
 } from "@features/drawing";
 import type { DrawingToolProps } from "../types";
 
+
+
+
+
+
 const previewLineStyle = {
   strokeColor: "lightgray",
   strokeWidth: 1,
