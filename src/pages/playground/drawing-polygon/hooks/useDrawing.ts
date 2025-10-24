@@ -1,18 +1,14 @@
 import { useCallback, useRef } from "react";
 
 import {
-  useScopeContext,
+  useCanvasScope,
+  type ToolMouseEvent,
   type Path,
   type Point,
   type Segment,
-  type ToolMouseEvent,
-} from "@features/drawing";
+} from "@features/drawingCanvas";
+// import type { Path, Point, Segment } from "@features/drawing";
 import type { DrawingToolProps } from "../types";
-
-
-
-
-
 
 const previewLineStyle = {
   strokeColor: "lightgray",
@@ -33,7 +29,7 @@ const HitOptions = {
  */
 export function useDrawing({ onComplete }: DrawingToolProps) {
   // Scope 컨텍스트
-  const { scope } = useScopeContext();
+  const scope = useCanvasScope();
 
   // 그려진 선 (선택 완료)
   const drawnLine = useRef<Path | null>(null);
@@ -80,19 +76,20 @@ export function useDrawing({ onComplete }: DrawingToolProps) {
   /** [Handler] 마우스 다운 (좌표 생성) */
   const handleMouseDown = useCallback(
     ({ event, point }: ToolMouseEvent) => {
+      if (scope === null) return;
+
       // 좌측 클릭인 경우
       if (event.button === 0) {
-        const _scope = scope.current;
         // Segment 생성
-        const _segment = new _scope.Segment(point);
+        const _segment = new scope.Segment(point);
 
         // 새로운 선 생성
-        drawnLine.current ??= new _scope.Path({
-          fillColor: new _scope.Color(0, 0, 0, 0.1),
+        drawnLine.current ??= new scope.Path({
+          fillColor: new scope.Color(0, 0, 0, 0.1),
           closed: true,
           segments: [],
           selected: true,
-          strokeColor: new _scope.Color("blue"),
+          strokeColor: new scope.Color("blue"),
           strokeWidth: 1,
         });
 
@@ -136,7 +133,7 @@ export function useDrawing({ onComplete }: DrawingToolProps) {
   /** [Handler] 마우스 이동 (미리보기 선 그리기) */
   const handleMouseMove = useCallback(
     ({ point }: paper.ToolEvent) => {
-      const _scope = scope.current;
+      if (scope === null) return;
 
       // 그려진 선이 없을 경우, 미리보기 선도 그리지 않음
       if (drawnLine.current === null) return;
@@ -145,12 +142,9 @@ export function useDrawing({ onComplete }: DrawingToolProps) {
       if (drawnLine.current.segments.length === 1) {
         // 미리보기 선이 없으면 생성, 있으면 경로 업데이트
         if (previewLine.current === null) {
-          previewLine.current = new _scope.Path({
+          previewLine.current = new scope.Path({
             ...previewLineStyle,
-            segments: [
-              drawnLine.current.lastSegment,
-              new _scope.Segment(point),
-            ],
+            segments: [drawnLine.current.lastSegment, new scope.Segment(point)],
           });
         } else {
           previewLine.current.lastSegment.point = point;
@@ -161,14 +155,14 @@ export function useDrawing({ onComplete }: DrawingToolProps) {
         // Segments 생성
         const _segments = [
           drawnLine.current.lastSegment,
-          new _scope.Segment(point),
+          new scope.Segment(point),
           drawnLine.current.firstSegment,
         ];
         // 미리보기 경로 재구성
         if (previewLine.current) {
           previewLine.current.segments = _segments;
         } else {
-          previewLine.current = new _scope.Path({
+          previewLine.current = new scope.Path({
             ...previewLineStyle,
             segments: _segments,
           });

@@ -1,4 +1,4 @@
-import { DrawingCanvas } from "@features/drawing";
+import { Canvas } from "@features/drawingCanvas";
 
 import { DrawingTool } from "./DrawingTool";
 import { InfoWindow } from "./InfoWindow";
@@ -6,9 +6,9 @@ import { InfoWindow } from "./InfoWindow";
 export function DrawingPolygon() {
   return (
     <div className="relative h-screen w-screen">
-      <DrawingCanvas>
+      <Canvas>
         <DrawingTool />
-      </DrawingCanvas>
+      </Canvas>
       <InfoWindow />
     </div>
   );
