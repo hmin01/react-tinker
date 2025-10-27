@@ -6,7 +6,11 @@ import { InfoWindow } from "./InfoWindow";
 export function DrawingPolygon() {
   return (
     <div className="relative h-screen w-screen">
-      <Canvas>
+      <Canvas
+        onZoom={(zoom) => {
+          console.log(zoom);
+        }}
+      >
         <DrawingTool />
       </Canvas>
       <InfoWindow />
