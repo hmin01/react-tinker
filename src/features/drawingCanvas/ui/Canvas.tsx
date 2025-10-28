@@ -10,7 +10,7 @@ import {
   type WheelEvent,
 } from "react";
 
-import { CanvasScopeContext } from "../model/scope";
+import { CanvasScopeContext, ZoomContext } from "../model";
 
 export interface CanvasProps extends CanvasHTMLAttributes<HTMLCanvasElement> {
   /** 최대 줌 레벨 */
@@ -73,7 +73,12 @@ export const Canvas = forwardRef<HTMLCanvasElement, CanvasProps>(
 
         // 줌 적용
         scope.view.scale(scaleFactor, _point);
-        scope.view.zoom = clampedZoom;
+        setScope((_scope) => {
+          if (_scope) {
+            _scope.view.zoom = clampedZoom;
+          }
+          return _scope;
+        });
         // 외부 이벤트 핸들러 호출
         onZoom?.(clampedZoom);
       },
@@ -88,7 +93,8 @@ export const Canvas = forwardRef<HTMLCanvasElement, CanvasProps>(
           const _scope = new paper.PaperScope();
           // 캔버스에 스코프 설정
           _scope.setup(canvasRef.current);
-          setScope(() => _scope);
+          // 스코프 상태 저장
+          setScope(_scope);
 
           // resizeObserver
           resizeObserver.current = new ResizeObserver((entries) => {
@@ -97,7 +103,16 @@ export const Canvas = forwardRef<HTMLCanvasElement, CanvasProps>(
             if (canvasRef.current) {
               canvasRef.current.width = rect.width;
               canvasRef.current.height = rect.height;
-              _scope.view.viewSize = new _scope.Size(rect.width, rect.height);
+              // View 크기 조정
+              setScope((_scope) => {
+                if (_scope) {
+                  _scope.view.viewSize = new _scope.Size(
+                    rect.width,
+                    rect.height,
+                  );
+                }
+                return _scope;
+              });
             }
             // onResize 콜백 호출
             onResize?.(rect);
@@ -119,21 +134,23 @@ export const Canvas = forwardRef<HTMLCanvasElement, CanvasProps>(
     }, []);
 
     return (
-      <CanvasScopeContext.Provider value={{ scope }}>
-        <canvas
-          {...props}
-          ref={(el) => {
-            // 내부 Ref 설정
-            canvasRef.current = el;
-            // 외부 Ref 설정
-            if (typeof ref === "function") ref(el);
-            else if (ref) ref.current = el;
-          }}
-          style={{ height: "100%", width: "100%", ...style }}
-          onContextMenu={handleContextMenu}
-          onWheel={onWheel ?? handleWheel}
-        />
-        {children}
+      <CanvasScopeContext.Provider value={{ scope, setScope }}>
+        <ZoomContext.Provider value={{ maxZoom, minZoom }}>
+          <canvas
+            {...props}
+            ref={(el) => {
+              // 내부 Ref 설정
+              canvasRef.current = el;
+              // 외부 Ref 설정
+              if (typeof ref === "function") ref(el);
+              else if (ref) ref.current = el;
+            }}
+            style={{ height: "100%", width: "100%", ...style }}
+            onContextMenu={handleContextMenu}
+            onWheel={onWheel ?? handleWheel}
+          />
+          {children}
+        </ZoomContext.Provider>
       </CanvasScopeContext.Provider>
     );
   },

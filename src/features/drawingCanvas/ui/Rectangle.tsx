@@ -1,6 +1,6 @@
 import { useEffect, useRef, type CSSProperties } from "react";
 
-import { useCanvasScope } from "../model/scope";
+import { useCanvasScope } from "../model";
 
 export interface RectangleProps {
   /** 채우기 색상 */
@@ -26,7 +26,7 @@ export function Rectangle({
   to,
 }: RectangleProps) {
   // Scope 컨텍스트
-  const scope = useCanvasScope();
+  const { scope } = useCanvasScope();
   // 사각형 도형 참조 객체
   const rectangle = useRef<paper.Path.Rectangle | null>(null);
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef, type CSSProperties } from "react";
 
-import { useCanvasScope } from "../model/scope";
+import { useCanvasScope } from "../model";
 
 export interface CircleProps {
   /** 중심 좌표 */
@@ -23,7 +23,7 @@ export function Circle({
   strokeWidth = 1,
 }: CircleProps) {
   // Scope 컨텍스트
-  const scope = useCanvasScope();
+  const { scope } = useCanvasScope();
   // 원형 도형 참조 객체
   const circle = useRef<paper.Path.Circle | null>(null);
 

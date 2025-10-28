@@ -1,4 +1,4 @@
-import { Canvas } from "@features/drawingCanvas";
+import { Canvas, ZoomControl } from "@features/drawingCanvas";
 
 import { DrawingTool } from "./DrawingTool";
 import { InfoWindow } from "./InfoWindow";
@@ -12,6 +12,7 @@ export function DrawingPolygon() {
         }}
       >
         <DrawingTool />
+        <ZoomControl />
       </Canvas>
       <InfoWindow />
     </div>

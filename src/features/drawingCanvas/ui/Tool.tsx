@@ -1,6 +1,6 @@
 import { useEffect, useRef, type MouseEvent } from "react";
 
-import { useCanvasScope } from "../model/scope";
+import { useCanvasScope } from "../model";
 
 export interface ToolMouseEvent extends paper.ToolEvent {
   /** 마우스 이벤트 */
@@ -41,7 +41,7 @@ export function Tool({
   scope,
 }: ToolProps) {
   // Scope 컨텍스트
-  const innerScope = useCanvasScope();
+  const { scope: innerScope } = useCanvasScope();
   // Tool 참조 객체
   const tool = useRef<paper.Tool | null>(null);
 
@@ -66,6 +66,7 @@ export function Tool({
       if (onMouseMove) tool.current.onMouseMove = onMouseMove;
       if (onMouseUp) tool.current.onMouseUp = onMouseUp;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [innerScope, scope]);
 
   /** 툴 제거 */

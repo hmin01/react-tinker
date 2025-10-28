@@ -2,11 +2,12 @@ import { useCallback, useRef } from "react";
 
 import {
   useCanvasScope,
-  type ToolMouseEvent,
   type Path,
   type Point,
   type Segment,
+  type ToolMouseEvent,
 } from "@features/drawingCanvas";
+
 // import type { Path, Point, Segment } from "@features/drawing";
 import type { DrawingToolProps } from "../types";
 
@@ -29,7 +30,7 @@ const HitOptions = {
  */
 export function useDrawing({ onComplete }: DrawingToolProps) {
   // Scope 컨텍스트
-  const scope = useCanvasScope();
+  const { scope } = useCanvasScope();
 
   // 그려진 선 (선택 완료)
   const drawnLine = useRef<Path | null>(null);

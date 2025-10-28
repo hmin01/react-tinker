@@ -1,6 +1,6 @@
 import { useEffect, useRef, type CSSProperties } from "react";
 
-import { useCanvasScope } from "../model/scope";
+import { useCanvasScope } from "../model";
 
 export interface PolylineProps {
   /** 대시 스타일 */
@@ -20,7 +20,7 @@ export function Polyline({
   strokeWidth = 1,
 }: PolylineProps) {
   // Scope 컨텍스트
-  const scope = useCanvasScope();
+  const { scope } = useCanvasScope();
   // 폴리라인 도형 참조 객체
   const polyline = useRef<paper.Path | null>(null);
 

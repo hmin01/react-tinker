@@ -1,6 +1,6 @@
 import { useEffect, useRef, type CSSProperties } from "react";
 
-import { useCanvasScope } from "../model/scope";
+import { useCanvasScope } from "../model";
 
 export interface LineProps {
   /** 대시 스타일 */
@@ -23,7 +23,7 @@ export function Line({
   to,
 }: LineProps) {
   // Scope 컨텍스트
-  const scope = useCanvasScope();
+  const { scope } = useCanvasScope();
   // 라인 참조 객체
   const line = useRef<paper.Path.Line | null>(null);
 
