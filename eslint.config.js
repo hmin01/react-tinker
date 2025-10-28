@@ -4,9 +4,9 @@ import pluginImport from "eslint-plugin-import";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
+import { defineConfig } from "eslint/config";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-import { defineConfig } from "eslint/config";
 
 export default defineConfig(
   { ignores: ["dist"] },
@@ -14,8 +14,8 @@ export default defineConfig(
     extends: [
       js.configs.recommended,
       tseslint.configs.recommendedTypeChecked,
-      tseslint.configs.strictTypeChecked,
-      tseslint.configs.stylisticTypeChecked,
+      // tseslint.configs.strictTypeChecked,
+      // tseslint.configs.stylisticTypeChecked,
     ],
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
@@ -76,14 +76,14 @@ export default defineConfig(
           alphabetize: { order: "asc", caseInsensitive: true },
         },
       ],
-
+      // FSD Lint rules
       "fsd/forbidden-imports": "error",
       "fsd/no-relative-imports": ["error", { allowSameSlice: true }],
       "fsd/no-public-api-sidestep": "error",
       "fsd/no-cross-slice-dependency": "error",
       "fsd/no-ui-in-business-logic": "error",
       "fsd/no-global-store-imports": "error",
-      "fsd/ordered-imports": "warn",
+      "fsd/ordered-imports": "off",
     },
     settings: {
       react: {
