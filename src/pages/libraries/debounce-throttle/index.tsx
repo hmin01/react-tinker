@@ -1,9 +1,13 @@
 import { PageLayout } from "@shared/ui";
-
+import { CardSection, EventVisualizer } from "./ui";
 export function DebounceThrottlePlayground() {
   return (
-    <PageLayout>
-      <PageLayout.Header title="Debounce & Throttle" />
+    <PageLayout header={<PageLayout.Header title="Debounce & Throttle" />}>
+      <PageLayout.Body className="px-6 py-4">
+        <CardSection>
+          <EventVisualizer />
+        </CardSection>
+      </PageLayout.Body>
     </PageLayout>
   );
 }
