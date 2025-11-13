@@ -1,8 +1,8 @@
 import { PageBody } from "./PageBody";
 import { PageHeader } from "./PageHeader";
-import { PageLayout as BaseLayout } from "./PageLayout";
+import { PageLayout as BaseLayout, type PageLayoutProps } from "./PageLayout";
 
-export interface PageLayoutComponent extends React.FC<React.PropsWithChildren> {
+export interface PageLayoutComponent extends React.FC<PageLayoutProps> {
   Header: typeof PageHeader;
   Body: typeof PageBody;
 }
