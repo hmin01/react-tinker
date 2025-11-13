@@ -15,7 +15,10 @@ export function PageLayout({
 }: PageLayoutProps) {
   return (
     <main
-      className={classNames("relative flex min-h-screen w-full", className)}
+      className={classNames(
+        "relative flex min-h-screen w-full flex-col",
+        className,
+      )}
       {...props}
     >
       {header}
