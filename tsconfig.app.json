@@ -28,7 +28,6 @@
     /** Path */
     "baseUrl": "src",
     "paths": {
-      "@/*": ["*"],
       "@app": ["app/index.ts"],
       "@app/*": ["app/*"],
       "@entities/*": ["entities/*"],

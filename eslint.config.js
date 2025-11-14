@@ -4,12 +4,15 @@ import pluginImport from "eslint-plugin-import";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
+import { defineConfig } from "eslint/config";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-import { defineConfig } from "eslint/config";
 
 export default defineConfig(
-  { ignores: ["dist"] },
+  {
+    files: ["**/*.{ts,tsx}", "dist/**/*.d.ts"],
+    ignores: ["dist/**/*", "!dist/**/*.d.ts"],
+  },
   {
     extends: [
       js.configs.recommended,

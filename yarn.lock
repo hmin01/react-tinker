@@ -510,10 +510,10 @@
     "@eslint/core" "^0.16.0"
     levn "^0.4.1"
 
-"@hmin/js-toolkit@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@hmin/js-toolkit/-/js-toolkit-0.0.2.tgz#061d6d7b661bef279fb41a6e38f3d6747f2853d3"
-  integrity sha512-Qn6J7eHyoScJHee5IoVNTXOyRbHBCFctL7ZpUjPMePGw5wCryDK8h5ATD8Lr9A5KGfuXkcn6Mf7QWBseiqiIXA==
+"@hmin/js-toolkit@^0.0.2-beta.7":
+  version "0.0.2-beta.7"
+  resolved "https://registry.yarnpkg.com/@hmin/js-toolkit/-/js-toolkit-0.0.2-beta.7.tgz#b5fd58e581f6cd0df3ee6a93b4291784c740e15f"
+  integrity sha512-b8A69H8oY758I+WpZusCy1hdlYfrOsfTUbScs9uFv/up8qexKh73811d0tYhVbVxylhcrHP6xkyTmmGy361NGA==
   dependencies:
     "@types/node" "^24.10.0"
     esbuild "^0.25.12"
