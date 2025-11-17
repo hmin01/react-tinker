@@ -1,21 +1,7 @@
 import { debounce, throttle } from "@hmin/js-toolkit";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export interface OccurredEvent {
-  /** 디바운스 */
-  debounce: boolean;
-  /** DOM */
-  dom: boolean;
-  /** 스로틀 */
-  throttle: boolean;
-}
-
-export interface SequentialEvent {
-  /** 이벤트 발생 여부 */
-  occurred: Partial<OccurredEvent>;
-  /** 이벤트 발생 일시 */
-  timestamp: number;
-}
+import type { IntervalEvent } from "../model";
 
 const INTERVAL = 250;
 const EVENT_DURATION = 500;
@@ -24,9 +10,7 @@ export function useEventVisualizer() {
   // 이벤트 타이머
   const intervalRef = useRef<number | null>(null);
   // 이벤트 기록
-  const [sequentialEvents, setSequentialEvents] = useState<SequentialEvent[]>(
-    [],
-  );
+  const [intervalEvents, setIntervalEvents] = useState<IntervalEvent[]>([]);
 
   // Raw 이벤트 발생 상태
   const rawEventOccurred = useRef(false);
@@ -61,7 +45,7 @@ export function useEventVisualizer() {
   /** [Handler] 이벤트 시작 */
   const handleEventStart = useCallback(() => {
     intervalRef.current ??= setInterval(() => {
-      setSequentialEvents((prev) => {
+      setIntervalEvents((prev) => {
         // Raw 이벤트가 발생했을 때, 디바운스 함수 실행
         if (rawEventOccurred.current) {
           debounced.current();
@@ -88,8 +72,8 @@ export function useEventVisualizer() {
           ...prev,
           {
             occurred: {
-              dom: rawEventOccurred.current,
               debounce: debouncedEventOccurred.current,
+              raw: rawEventOccurred.current,
               throttle: throttledEventOccurred.current,
             },
             timestamp: Date.now(),
@@ -115,7 +99,7 @@ export function useEventVisualizer() {
   const handleEventReset = useCallback(() => {
     handleEventStop();
     // 이벤트 기록 초기화
-    setSequentialEvents([]);
+    setIntervalEvents([]);
   }, [handleEventStop]);
 
   useEffect(() => {
@@ -131,6 +115,6 @@ export function useEventVisualizer() {
     handleEventReset,
     handleEventStart,
     handleEventStop,
-    sequentialEvents,
+    intervalEvents,
   };
 }

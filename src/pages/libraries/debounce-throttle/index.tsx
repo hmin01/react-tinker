@@ -1,5 +1,7 @@
 import { PageLayout } from "@shared/ui";
+
 import { CardSection, EventVisualizers } from "./ui";
+
 export function DebounceThrottlePlayground() {
   return (
     <PageLayout header={<PageLayout.Header title="Debounce & Throttle" />}>

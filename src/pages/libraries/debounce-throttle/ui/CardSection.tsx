@@ -10,7 +10,7 @@ export function CardSection({
   return (
     <div
       className={classNames(
-        "relative rounded-lg border border-gray-300 px-4 py-3",
+        "relative rounded-lg border border-gray-300 px-6 py-5",
         className,
       )}
       {...props}

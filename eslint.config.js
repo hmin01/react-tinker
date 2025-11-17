@@ -79,14 +79,13 @@ export default defineConfig(
           alphabetize: { order: "asc", caseInsensitive: true },
         },
       ],
-
       "fsd/forbidden-imports": "error",
       "fsd/no-relative-imports": ["error", { allowSameSlice: true }],
       "fsd/no-public-api-sidestep": "error",
       "fsd/no-cross-slice-dependency": "error",
       "fsd/no-ui-in-business-logic": "error",
       "fsd/no-global-store-imports": "error",
-      "fsd/ordered-imports": "warn",
+      "fsd/ordered-imports": "off",
     },
     settings: {
       react: {
