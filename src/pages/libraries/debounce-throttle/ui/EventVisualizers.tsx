@@ -35,6 +35,11 @@ export function EventVisualizers() {
         eventType="debounce"
         title="Debounce"
       />
+      <EventViewSection
+        events={sequentialEvents}
+        eventType="throttle"
+        title="Throttle"
+      />
     </div>
   );
 }
