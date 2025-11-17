@@ -1,2 +1,2 @@
 export { CardSection } from "./CardSection";
-export { EventVisualizer } from "./EventVisualizer";
+export { EventVisualizers } from "./EventVisualizers";
